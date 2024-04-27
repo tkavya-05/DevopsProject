@@ -1,0 +1,17 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: push-task
+spec:
+  inputs:
+    resources:
+      - name: build-image
+        type: image
+  steps:
+    - name: push
+      image: gcr.io/cloud-builders/docker
+      command:
+        - docker
+      args:
+        - push
+        - $(inputs.resources.build-image.url)

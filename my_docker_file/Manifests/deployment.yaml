@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rails-app
+  namespace: ruby-rails  
+spec:
+  replicas: 2  
+  selector:
+    matchLabels:
+      app: rails-app
+  template:
+    metadata:
+      labels:
+        app: rails-app
+    spec:
+      containers:
+      - name: rails-app
+        image: yashpimple22/railsapp:1.0
+        ports:
+        - containerPort: 3000
+        resources:
+         limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rails-app-service
+  namespace: ruby-rails  
+spec:
+  selector:
+    app: rails-app
+  ports:
+  - protocol: TCP
+    port: 3000
+    targetPort: 3000
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-db
+  namespace: ruby-rails
+spec:
+  serviceName: postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:latest
+        env:
+          - name: POSTGRES_DB
+            value: "db1"
+          - name: POSTGRES_USER
+            value: "user1"
+          - name: POSTGRES_PASSWORD
+            value: "password"
+        ports:
+        - containerPort: 5432

@@ -1,0 +1,21 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: build-task
+spec:
+  inputs:
+    resources:
+      - name: source
+        type: git
+  steps:
+    - name: build
+      image: gcr.io/kaniko-project/executor:latest
+      command:
+        - /kaniko/executor
+      args:
+        - --context
+        - $(inputs.resources.source.path)
+        - --dockerfile
+        - $(inputs.resources.source.path)/Dockerfile
+        - --destination
+        - $(outputs.resources.build-image.url)
