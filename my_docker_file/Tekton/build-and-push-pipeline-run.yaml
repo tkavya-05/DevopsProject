@@ -14,5 +14,5 @@ spec:
     - name: dockerfile
       value: "./Dockerfile"
     - name: docker-image
-      value: "https://hub.docker.com/r/yashpimple22/railsapp:latest"
+      value: "https://hub.docker.com/r/telukuntlakavya/my_docker_file"
   serviceAccountName: default
