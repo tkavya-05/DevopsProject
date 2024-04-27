@@ -8,4 +8,4 @@ spec:
   params:
     - name: gitrepo
       value:
-        url: "https://github.com/YashPimple/Ruby_on_rails.git"
+        url:"https://github.com/tkavya-05/DevopsProject/tree/main/my_docker_file"
